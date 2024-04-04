@@ -4,11 +4,12 @@ import { useFetch } from '@/hooks/use-fetch-data'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import Search from '../search'
+import Pagination from '../pagination'
 
 const TABLE_HEAD = ['id', 'Project Name', 'Project Domain', 'Last Accessed', 'license Use']
 
 const DashboardTemplate = () => {
-  const { isLoading, filteredData ,handleChangeQuery} = useFetch("https://frontend-exam.digitalfortress.dev/projects")
+  const { isLoading, filteredData, handleChangeQuery, PAGE_SIZE, onPageChange, pageNumber, totalPages } = useFetch("https://frontend-exam.digitalfortress.dev/projects")
   const { isDarkMode } = useDarkMode()
   const router = useRouter()
 
@@ -91,6 +92,7 @@ const DashboardTemplate = () => {
 
             </tbody>
           </table>
+          <Pagination currentPage={pageNumber} onPageChange={onPageChange} totalPages={totalPages} />
         </div>
       </div>
     </div >

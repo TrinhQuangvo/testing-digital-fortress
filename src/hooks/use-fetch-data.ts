@@ -23,19 +23,35 @@ export const useFetch = (url: string) => {
     const [data, setData] = useState<IData>()
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [searchQuery, setSearchQuery] = useState<string>('');
-
+    const [pageNumber, setPageNumber] = useState<number>(1);
+    const PAGE_SIZE = 3
     const handleChangeQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target
         setSearchQuery(value)
     }
 
+    const totalPages = useMemo(() => {
+        if (!data || !data.results) return 0;
+        return Math.ceil(data.results.length / PAGE_SIZE);
+    }, [data, PAGE_SIZE]);
+
+    const onPageChange = (page: number) => {
+        setPageNumber(page)
+    }
+
     const filteredData = useMemo(() => {
         if (!data || !data.results) return [];
 
-        return data.results.filter(item =>
+        let filteredResults = data.results.filter((item) =>
             item.project_name.toLowerCase().includes(searchQuery.toLowerCase())
         );
-    }, [data, searchQuery]);
+
+        const startIndex = (pageNumber - 1) * PAGE_SIZE;
+        const endIndex = startIndex + PAGE_SIZE;
+        filteredResults = filteredResults.slice(startIndex, endIndex);
+
+        return filteredResults;
+    }, [data, searchQuery, pageNumber, PAGE_SIZE]);
 
 
     const getData = useCallback(async () => {
@@ -63,6 +79,8 @@ export const useFetch = (url: string) => {
         data: filteredData,
         isLoading,
         handleChangeQuery,
-        filteredData
+        filteredData,
+        PAGE_SIZE,
+        onPageChange, pageNumber, totalPages
     }
 }
