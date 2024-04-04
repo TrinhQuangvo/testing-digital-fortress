@@ -24,13 +24,19 @@ export const useFetch = (url: string) => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [searchQuery, setSearchQuery] = useState<string>('');
 
+    const handleChangeQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target
+        setSearchQuery(value)
+    }
+
     const filteredData = useMemo(() => {
-        if (!data || !data.results) return null;
+        if (!data || !data.results) return [];
 
         return data.results.filter(item =>
             item.project_name.toLowerCase().includes(searchQuery.toLowerCase())
         );
     }, [data, searchQuery]);
+
 
     const getData = useCallback(async () => {
         setIsLoading(true);
@@ -54,8 +60,9 @@ export const useFetch = (url: string) => {
     }, [getData])
 
     return {
-        data,
+        data: filteredData,
         isLoading,
-        setSearchQuery
+        handleChangeQuery,
+        filteredData
     }
 }

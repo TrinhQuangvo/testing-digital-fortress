@@ -8,7 +8,7 @@ import Search from '../search'
 const TABLE_HEAD = ['id', 'Project Name', 'Project Domain', 'Last Accessed', 'license Use']
 
 const DashboardTemplate = () => {
-  const { data, isLoading } = useFetch("https://frontend-exam.digitalfortress.dev/projects")
+  const { isLoading, filteredData ,handleChangeQuery} = useFetch("https://frontend-exam.digitalfortress.dev/projects")
   const { isDarkMode } = useDarkMode()
   const router = useRouter()
 
@@ -25,7 +25,7 @@ const DashboardTemplate = () => {
       <div className="lg:w-[90%] mx-auto">
         <div className="flex justify-between items-center">
           <h1 className='py-4 text-2xl dark:text-white font-semibold'>Dashboard</h1>
-          <Search />
+          <Search handleChangeQuery={handleChangeQuery} />
         </div>
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -48,8 +48,8 @@ const DashboardTemplate = () => {
                     Loading...
                   </td>
                 </tr>
-              )} 
-              {data?.results.length > 0 ? data?.results.map(item => (
+              )}
+              {filteredData.length > 0 ? filteredData.map(item => (
                 <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {item.id}
