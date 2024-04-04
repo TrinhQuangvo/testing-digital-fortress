@@ -39,7 +39,7 @@ const DashboardTemplate = () => {
               </tr>
             </thead>
             <tbody>
-              {isLoading ? (
+              {isLoading && (
                 <tr>
                   <td
                     colSpan={TABLE_HEAD.length}
@@ -48,47 +48,47 @@ const DashboardTemplate = () => {
                     Loading...
                   </td>
                 </tr>
-              ) : data?.results.length > 0 ? (
-                data?.results.map(item => (
-                  <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {item.id}
-                    </td>
-                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {item.project_name ? item.project_name : "No Data"}
-                    </td>
-                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {item.project_domain ? item.project_domain : "No Data"}
-                    </td>
-                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {item.last_accessed ? item.last_accessed : "No Data"}
-                    </td>
-                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {item.license_use.length > 0 &&
-                        item.license_use.map((item, idx) => (
-                          <div key={idx} className="flex flex-col gap-2">
-                            <span>Type: {item.license_type}</span>
-                            {item.libraries.length > 0 &&
-                              item.libraries.map(lib => (
-                                <span className="mr-2" key={lib}>
-                                  {lib}
-                                </span>
-                              ))}
-                          </div>
-                        ))}
-                    </td>
-                  </tr>
-                ))
-              ) : (
+              )} 
+              {data?.results.length > 0 ? data?.results.map(item => (
+                <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {item.id}
+                  </td>
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {item.project_name ? item.project_name : "No Data"}
+                  </td>
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {item.project_domain ? item.project_domain : "No Data"}
+                  </td>
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {item.last_accessed ? item.last_accessed : "No Data"}
+                  </td>
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {item.license_use.length > 0 &&
+                      item.license_use.map((item, idx) => (
+                        <div key={idx} className="flex flex-col gap-2">
+                          <span>Type: {item.license_type}</span>
+                          {item.libraries.length > 0 &&
+                            item.libraries.map(lib => (
+                              <span className="mr-2" key={lib}>
+                                {lib}
+                              </span>
+                            ))}
+                        </div>
+                      ))}
+                  </td>
+                </tr>
+              )) :
                 <tr>
                   <td
                     colSpan={TABLE_HEAD.length}
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    className="px-6 text-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
                     Not Found!
                   </td>
                 </tr>
-              )}
+              }
+
             </tbody>
           </table>
         </div>

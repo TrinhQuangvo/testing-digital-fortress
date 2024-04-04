@@ -16,7 +16,7 @@ interface IResult {
 
 interface IData {
     count: number,
-    results: IResult[]
+    results: IResult[] | []
 }
 
 export const useFetch = (url: string) => {
@@ -54,7 +54,7 @@ export const useFetch = (url: string) => {
     }, [getData])
 
     return {
-        data: filteredData,
+        data,
         isLoading,
         setSearchQuery
     }
